@@ -24,4 +24,10 @@ class Kele
         mentor_availability
     end
     
+    def get_messages(page = 1)
+        values = { "page": page }
+        response = self.class.get "https://www.bloc.io/api/v1/message_threads", headers: { "authorization" => @auth_token }
+        JSON.parse(response.body)
+    end
+    
 end
