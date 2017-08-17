@@ -30,4 +30,16 @@ class Kele
         JSON.parse(response.body)
     end
     
+    def create_message(sender, recipient_id, subject, stripped_text)
+        url = "https://www.bloc.io/api/v1/messages"
+        values = {
+            "sender": sender,
+            "recipient_id": recipient_id,
+            "subject": subject,
+            "stripped-text": stripped_text
+        }       
+        headers = { "authorization" => @auth_token }
+        response = self.class.post url, values
+        raise "Something went wrong." if response.code != 200
+    end
 end
