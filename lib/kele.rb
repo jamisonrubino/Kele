@@ -13,4 +13,12 @@ class Kele
         response = self.class.get 'https://www.bloc.io/api/v1/users/me', headers: { "authorization" => @auth_token }
         current_user = JSON.parse(response.body)
     end
+    
+    def get_mentor_availability(mentor_id)
+        url = "https://www.bloc.io/api/v1/mentors/#{mentor_id}/student_availability"
+        response = self.class.get url, headers: { "authorization" => @auth_token }
+        mentor_availability = []
+        JSON.parse(response.body).map { |m| mentor_availability << {"starts_at": m["starts_at"], "ends_at": m["ends_at"]} }
+        mentor_availability
+    end
 end
