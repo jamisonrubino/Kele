@@ -31,7 +31,6 @@ class Kele
     end
     
     def create_message(sender, recipient_id, subject, stripped_text)
-        url = "https://www.bloc.io/api/v1/messages"
         values = {
             "sender": sender,
             "recipient_id": recipient_id,
@@ -39,8 +38,9 @@ class Kele
             "stripped-text": stripped_text
         }       
         headers = { "authorization" => @auth_token }
-        response = self.class.post url, values
+        response = self.class.post "https://www.bloc.io/api/v1/messages", body: values, headers: headers
         raise "Something went wrong." if response.code != 200
+        puts response.code
     end
     
     def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
@@ -52,7 +52,9 @@ class Kele
             "comment": comment,
             "enrollment_id": 28616
         }
-        response = self.class.post url, values
+        
+        headers = { "authorization" => @auth_token }
+        response = self.class.post("https://www.bloc.io/api/v1/checkpoint_submissions", body: values, headers: headers)
         puts response.code
     end
 end
